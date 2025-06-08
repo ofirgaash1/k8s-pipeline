@@ -1,4 +1,4 @@
-# 🚀 silence-k8s
+# 🚀 K8S Deployment Pipline
 
 > Kubernetes deployment of the [`ofirgaash/web`](https://github.com/ofirgaash1/silence-k8s/tree/main/app) static app, powered by modern DevOps tooling.
 
