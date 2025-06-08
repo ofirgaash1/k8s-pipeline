@@ -1,0 +1,40 @@
+replicaCount: 1
+
+image:
+  repository: 314525640319.dkr.ecr.il-central-1.amazonaws.com/ofirgaash/web
+  pullPolicy: IfNotPresent
+  tag: "latest"
+  pullPolicy: Always
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+  hosts:
+    - host: silence.ofirgaash.click
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+

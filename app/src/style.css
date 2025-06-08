@@ -1,0 +1,524 @@
+:root {
+  --bg-color: #f0f4f8;
+  --text-color: #333;
+  --card-bg: #fff;
+  --primary: #2ecc71;
+  --primary-text: #fff;
+  --drop-zone-bg: #fff;
+  --drop-zone-border: #7f8c8d;
+  --threshold-line: rgba(0, 0, 0, 0.5);
+  --input-bg: #fff;
+  --input-border: #ccc;
+  --slider-track: #ddd;
+  --slider-thumb: #5a5aff;
+  --background-export: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg: #1e1e1e;
+  --primary: #27ae60;
+  --primary-text: #fff;
+  --drop-zone-bg: #1c1c1c;
+  --drop-zone-border: #555;
+  --threshold-line: rgba(0, 0, 0, 0.5);
+  --input-bg: #2a2a2a;
+  --input-border: #555;
+  --slider-track: #555;
+  --slider-thumb: #75b7e4;
+  --background-export: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+  text-align: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+wave::-webkit-scrollbar {
+  height: 0;
+}
+
+
+::-webkit-scrollbar {
+  width: 0px;
+  /* or 0 if you want no scrollbar thumb */
+}
+
+h1 {
+  margin: 20px 10px;
+  font-size: 2em;
+  color: var(--text-color);
+}
+
+/* Drag & Drop */
+.drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 128px;
+  border: 2px dashed var(--drop-zone-border);
+  margin: 20px 10px;
+  background: var(--drop-zone-bg);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+#drop-zone-text p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+#drop-zone-text button {
+  margin-top: 8px;
+}
+
+.drop-zone.dragover {
+  border-color: #3498db;
+  background-color: #ecf7ff;
+}
+
+/* Buttons */
+#browseBtn {
+  font-family: inherit;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  background-color: var(--primary);
+  color: var(--primary-text);
+}
+
+browseBtn:hover {
+  opacity: 0.9;
+}
+
+/* Waveform */
+#waveformContainer {
+  margin: 0 10px;
+  position: relative;
+}
+
+#waveform {
+  width: 100%;
+  height: 128px;
+  background-color: #dde1e7;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: none;
+}
+
+#thresholdLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--threshold-line);
+  pointer-events: none;
+  display: none;
+}
+
+/* Video Preview Container */
+#videoPreview2container {
+  width: 50%;
+  aspect-ratio: 16 / 9;
+  background: rgba(128, 128, 128, 0.209);
+  border-radius: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: width 0.4s ease, height 0.4s ease;
+  margin: 0 auto;
+}
+
+#videoPreview2container.big {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1010;
+  background-color: #121212f9;
+}
+
+#videoPreview2container.small {
+  width: 30%;
+  height: auto;
+  box-sizing: border-box;
+}
+
+
+#videoPreview2 {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Controls Panel */
+.main-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  /* stretch to match video height */
+  gap: 20px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 70%;
+  height: 100%;
+  /* match video height */
+  box-sizing: border-box;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Each slider row */
+.controls .control-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  /* vertical spacing */
+}
+
+.controls .control-group:last-child {
+  margin-bottom: 0;
+}
+
+.control-group label {
+  flex: 0 0 120px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex: 1;
+  min-width: 0;
+  /* allow proper flex-shrink */
+}
+
+/* Track */
+.slider-row input[type="range"] {
+  flex: 1;
+  min-width: 0;
+  height: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 3px;
+  background: linear-gradient(to right,
+      var(--slider-thumb) 0%,
+      var(--slider-thumb) var(--value, 50%),
+      var(--slider-track) var(--value, 50%),
+      var(--slider-track) 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  transition: background 0.2s ease;
+}
+
+
+
+/* Knob size */
+.slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--slider-thumb);
+  cursor: pointer;
+}
+
+.slider-row input[type="range"]::-moz-range-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--slider-thumb);
+  cursor: pointer;
+}
+
+/* Number inputs next to sliders */
+.input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 80px;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+
+.input-wrap input[type="number"] {
+  width: 70px;
+  height: 32px;
+  /* match thumb height for vertical alignment */
+  padding: 0 6px;
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.input-wrap span {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* 
+/* Audio format buttons */
+/* .format-controls {
+  margin: 20px 0;
+}
+
+.format-controls button {
+  background-color: #b0b0b0;
+  color: white;
+  margin: 0 5px;
+}
+
+.format-controls .selected {
+  background-color: #3498db;
+  color: white;
+} */
+
+/* Player & export buttons */
+
+
+
+#Play-Non-Silent {
+  background-color: #3e5126e3;
+  color: white;
+  margin: 0 5px;
+}
+
+#invert {
+  background-color: #7f8c8d;
+}
+
+
+
+/* Misc */
+.donate-form {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.download-btn {
+  display: none;
+  margin-top: 20px;
+  background-color: #e67e22;
+  color: white;
+  margin-bottom: 110px;
+}
+
+.download-btn:hover {
+  background-color: #d35400;
+}
+
+#waveform wave:first-child {
+  color: #ffffff;
+}
+
+.theme-toggle {
+  all: unset;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  cursor: pointer;
+  font-size: 24px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#audioPreview {
+  display: none;
+}
+
+.bug-report {
+  text-align: center;
+  font-size: 13px;
+  margin-top: 0px;
+  color: var(--text-color);
+  background: transparent;
+  opacity: 0.6;
+}
+
+.bug-report a {
+  color: var(--text-color);
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+
+.bug-report a:hover {
+  opacity: 0.8;
+}
+
+.keyboard-shortcuts {
+  margin-right: 10vw;
+  flex: 0 0 250px;
+  max-width: 300px;
+  padding: 20px 36px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.keyboard-shortcuts h2 {
+  margin: 0 0 19px;
+  font-size: 1em;
+  text-align: center;
+}
+
+.keyboard-shortcuts ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+
+/* style the <kbd> tags to look like little keys */
+.keyboard-shortcuts kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: monospace;
+  font-size: 0.9em;
+  background: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.bottom-row {
+  display: flex;
+  align-items: flex-start;
+  /* top-align them */
+  justify-content: center;
+  /* center the whole group */
+  gap: 24px;
+  /* space between shortcuts & stats */
+  margin-top: 10px;
+  margin: 10px auto;
+  /* vertical spacing */
+  margin-bottom: 0;
+  max-width: 800px;
+  /* optional: constrain width of the row */
+}
+
+#statsPanel {
+  min-width: 56vw;
+  flex: 1 1 auto;
+  font-size: 18px;
+  font-weight: bold;
+  background: var(--card-bg);
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 700px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin: 0;
+  /* ← override the old margins */
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* base outline style for all buttons */
+button {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--text-color);
+  border: 2px solid var(--text-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+/* hover “fills in” the outline */
+button:hover {
+  background: var(--background-export);
+
+}
+
+/* special-case the Invert button back to grey */
+button#invert {
+  background: var(--input-bg);
+  color: var(--text-color);
+  border-color: var(--input-border);
+}
+
+button#invert:hover {
+  /* if you still want hover on invert: */
+  background: #7e7e7e;
+  color: var(--primary-text);
+}
+
+.keyboard-shortcuts li {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.keyboard-shortcuts .key {
+  width: 100px;
+  /* fixed width for key column */
+  flex-shrink: 0;
+}
+
+.keyboard-shortcuts .description {
+  flex: 1;
+  padding-left: 10px;
+}
+
+.video-timestamp {
+  max-width: 500px;
+  /* optional limit */
+  margin: 10px 12vw;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  /* Or a hand-drawn style */
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: left;
+  color: rgb(123, 117, 117);
+}
