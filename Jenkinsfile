@@ -39,6 +39,7 @@ pipeline {
     stage('Deploy with Helm') {
       steps {
         sh """
+          helm list -A
           kubectl get all -n ofirgaash
           helm upgrade $HELM_RELEASE $CHART_DIR \
             --namespace $NAMESPACE \
