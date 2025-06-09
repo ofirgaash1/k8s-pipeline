@@ -2,15 +2,12 @@ replicaCount: 1
 
 image:
   repository: 314525640319.dkr.ecr.il-central-1.amazonaws.com/ofirgaash/web
-  pullPolicy: IfNotPresent
-  tag: "latest"
   pullPolicy: Always
+  tag: "latest"
+
 service:
   type: ClusterIP
   port: 80
-
-ingress:
-  enabled: false
 
 resources:
   limits:
@@ -37,4 +34,3 @@ ingress:
         - path: /
           pathType: Prefix
   tls: []
-
