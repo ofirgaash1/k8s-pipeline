@@ -39,6 +39,7 @@ pipeline {
     stage('Deploy with Helm') {
       steps {
         sh """
+          kubectl get all -n ofirgaash
           helm upgrade $HELM_RELEASE $CHART_DIR \
             --namespace $NAMESPACE \
             --set image.repository=$ECR_REPO \
