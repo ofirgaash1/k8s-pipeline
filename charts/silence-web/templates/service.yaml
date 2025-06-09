@@ -5,9 +5,7 @@ metadata:
   labels:
     app: {{ include "silence-web.name" . }}
 spec:
-  type: "{{- if .Values.ingress.enabled }}ClusterIP{{ else }}{{ .Values.service.type }}{{ end }}"
-
-
+  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: 80
