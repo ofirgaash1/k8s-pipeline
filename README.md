@@ -17,12 +17,13 @@
 
 ## 🌐 Live URLs
 
-| Component  | URL |
-|------------|-----|
-| 🧩 App     | [http://silence.ofirgaash.click/](http://silence.ofirgaash.click/) |
-| 📊 Grafana | [http://grafana.ofirgaash.click/](http://grafana.ofirgaash.click/?orgId=1&from=now-6h&to=now&timezone=browser) |
-| 🔁 Jenkins | [Jenkins Job](http://vpn.aws.cts.care/job/ofir-EKS-deployment/) |
-| 📦 ECR     | [ECR Repository](https://il-central-1.console.aws.amazon.com/ecr/repositories/private/314525640319/ofirgaash/web?region=il-central-1) |
+| Component      | URL |
+|----------------|-----|
+| 🧩 App         | [http://silence.ofirgaash.click/](http://silence.ofirgaash.click/) |
+| 📊 Grafana     | [http://grafana.ofirgaash.click/](http://grafana.ofirgaash.click/?orgId=1&from=now-6h&to=now&timezone=browser) |
+| 🔁 Jenkins     | [Jenkins Job](http://vpn.aws.cts.care/job/ofir-EKS-deployment/) |
+| 📦 ECR         | [ECR Repository](https://il-central-1.console.aws.amazon.com/ecr/repositories/private/314525640319/ofirgaash/web?region=il-central-1) |
+| 🧩 prometheus  | [prometheus](http://prometheus.ofirgaash.click/query) |
 
 ---
 
